@@ -1,42 +1,63 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset = "UTF-8">
-    <title> Start Stop Fun</title>
-    </head>
-    <body>
-        <button id = "Start1">Start1</button>
-        <button id = "Stop1">Stop1</button>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Start Stop Fun</title>
+  </head>
+  <body>
+    <button id="Start1">Start1</button>
+    <button id="Stop1">Stop1</button>
 
-         <script>
- 
-const ctx = new AudioContext();
- 
+    <script>
+      const ctx = new AudioContext();
 
-const osc1 = new OscillatorNode(ctx);
-osc1.frequency.value = 220;
-osc1.type = "triangle";
+      const osc1 = new OscillatorNode(ctx);
+      osc1.frequency.value = 110;
+      osc1.type = "sawtooth";
 
-const osc1Gain = new GainNode(ctx);
-osc1Gain.gain.value = 0.1;
+      const osc1Gain = new GainNode(ctx);
+      osc1Gain.gain.value = 0.1;
 
-osc1.connect(osc1Gain);
-osc1Gain.connect(ctx.destination);
+      osc1.connect(osc1Gain);
+      osc1Gain.connect(ctx.destination);
 
-const mod = new OscillatorNode(ctx);
-mod.frequency.value = 2; // what happens if you push this above 20Hz?
+      const mod = new OscillatorNode(ctx);
+      mod.type = "sine";
+      mod.frequency.value = 16; // what happens if you push this above 20Hz?
 
-const modGain = new GainNode(ctx);
-modGain.gain.value = 1; 
+      const modFreq = new OscillatorNode(ctx);
+      modFreq.type = "sine";
+      modFreq.frequency.value = 1;
 
-mod.connect(modGain);
-modGain.connect(osc1Gain.gain);
+      const modGain = new GainNode(ctx);
+      modGain.gain.value = 0.5;
 
-osc1.start();
-mod.start();
+      const modFreqGain = new GainNode(ctx);
+      modFreqGain.gain.value = 32;
 
-</script>
+      osc1.connect(osc1Gain);
+      osc1Gain.connect(ctx.destination);
 
-</body>
+      mod.connect(modGain);
+      modGain.connect(osc1Gain.gain);
 
+      modFreq.connect(modFreqGain);
+      modFreqGain.connect(mod.frequency);
+
+      //   osc1.start();
+      //   mod.start();
+      //   modFreq.start();
+
+      document.querySelector("#Start1").onclick = () => {
+        osc1.start();
+        mod.start();
+        modFreq.start();
+      };
+      document.querySelector("#Stop1").onclick = () => {
+        osc1.stop();
+        mod.stop();
+        modFreq.stop();
+      };
+    </script>
+  </body>
 </html>
