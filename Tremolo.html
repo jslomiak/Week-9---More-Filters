@@ -12,8 +12,8 @@
       const ctx = new AudioContext();
 
       const osc1 = new OscillatorNode(ctx);
-      osc1.frequency.value = 110;
-      osc1.type = "sawtooth";
+      osc1.frequency.value = 440;
+      osc1.type = "square";
 
       const osc1Gain = new GainNode(ctx);
       osc1Gain.gain.value = 0.1;
@@ -23,11 +23,11 @@
 
       const mod = new OscillatorNode(ctx);
       mod.type = "sine";
-      mod.frequency.value = 16; // what happens if you push this above 20Hz?
+      mod.frequency.value = 48; // what happens if you push this above 20Hz?
 
       const modFreq = new OscillatorNode(ctx);
-      modFreq.type = "sine";
-      modFreq.frequency.value = 1;
+      modFreq.type = "sawtooth";
+      modFreq.frequency.value = 2;
 
       const modGain = new GainNode(ctx);
       modGain.gain.value = 0.5;
